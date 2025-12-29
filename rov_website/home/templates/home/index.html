@@ -1,0 +1,245 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container-fluid">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6 hero-content">
+                <h1 class="hero-title">{{ project_info.title }}</h1>
+                <p class="hero-subtitle">{{ project_info.tagline }}</p>
+                <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9;">
+                    {{ project_info.description|truncatewords:30 }}
+                </p>
+                <div>
+                    <a href="{% url 'about:about' %}" class="btn btn-primary-gradient me-2">
+                        <i class="fas fa-info-circle"></i> Learn More
+                    </a>
+                    <a href="{% url 'contact:contact' %}" class="btn btn-outline-gradient">
+                        <i class="fas fa-envelope"></i> Get in Touch
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center hero-content">
+                <div style="font-size: 200px; opacity: 0.2; animation: float 6s ease-in-out infinite;">
+                    <i class="fas fa-robot"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section style="padding: 4rem 0; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+    <div class="container-fluid">
+        <div class="row text-center">
+            <div class="col-md-4 mb-4">
+                <h2 style="font-size: 2.5rem; color: #0066ff; font-weight: 800;">{{ project_info.team_size }}</h2>
+                <p style="font-size: 1.1rem; color: #555;">Team Members</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h2 style="font-size: 2.5rem; color: #00d4ff; font-weight: 800;">55K+</h2>
+                <p style="font-size: 1.1rem; color: #555;">Lines of Code</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h2 style="font-size: 2.5rem; color: #0066ff; font-weight: 800;">2024-26</h2>
+                <p style="font-size: 1.1rem; color: #555;">Academic Period</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section style="padding: 5rem 0; background: white;">
+    <div class="container-fluid">
+        <h2 class="section-title">Key Features</h2>
+        <div style="margin-top: 4rem;">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="feature-card">
+                        <i class="fas fa-water"></i>
+                        <h4 style="margin-bottom: 1rem; color: var(--dark-color); font-weight: 700;">
+                            6-DOF Motion Control
+                        </h4>
+                        <p style="color: #666;">
+                            Full 3D movement capability with surge, sway, heave, yaw, pitch, and roll for precise underwater maneuvering.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="feature-card">
+                        <i class="fas fa-camera"></i>
+                        <h4 style="margin-bottom: 1rem; color: var(--dark-color); font-weight: 700;">
+                            HD Video Streaming
+                        </h4>
+                        <p style="color: #666;">
+                            Real-time 1080p video feed with underwater lighting for clear navigation and inspection capabilities.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="feature-card">
+                        <i class="fas fa-microchip"></i>
+                        <h4 style="margin-bottom: 1rem; color: var(--dark-color); font-weight: 700;">
+                            AI Integration
+                        </h4>
+                        <p style="color: #666;">
+                            Advanced artificial intelligence for autonomous navigation, object detection, and smart decision-making.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row" style="margin-top: 3rem;">
+            <div class="col-lg-4">
+                <div class="feature-card">
+                    <i class="fas fa-terminal"></i>
+                    <h4 style="margin-bottom: 1rem; color: var(--dark-color); font-weight: 700;">
+                        Multi-Sensor Suite
+                    </h4>
+                    <p style="color: #666;">
+                        Integrated depth, temperature, pH, and water quality sensors for comprehensive environmental data collection.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="feature-card">
+                    <i class="fas fa-robot"></i>
+                    <h4 style="margin-bottom: 1rem; color: var(--dark-color); font-weight: 700;">
+                        Robotic Arm
+                    </h4>
+                    <p style="color: #666;">
+                        5-DOF servo-controlled manipulator for object retrieval, sampling, and underwater task execution.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="feature-card">
+                    <i class="fas fa-code"></i>
+                    <h4 style="margin-bottom: 1rem; color: var(--dark-color); font-weight: 700;">
+                        Advanced Control
+                    </h4>
+                    <p style="color: #666;">
+                        Custom control algorithms using ArduSub firmware and Raspberry Pi for intelligent autonomous operation.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Vehicles Section -->
+<section style="padding: 5rem 0; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+    <div class="container-fluid">
+        <h2 class="section-title">Featured Vehicles</h2>
+        <div style="margin-top: 4rem;">
+            <div class="row">
+                {% for vehicle in featured_vehicles %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="vehicle-card">
+                        {% if vehicle.image %}
+                        <img src="{{ vehicle.image.url }}" alt="{{ vehicle.name }}" style="background: #e9ecef;">
+                        {% else %}
+                        <div style="width: 100%; height: 250px; background: linear-gradient(135deg, #0066ff 0%, #00d4ff 100%); display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-robot" style="font-size: 80px; color: white; opacity: 0.5;"></i>
+                        </div>
+                        {% endif %}
+                        <div class="vehicle-card-body">
+                            <h5 class="vehicle-card-title">{{ vehicle.name }}</h5>
+                            <p class="vehicle-card-year"><i class="fas fa-calendar"></i> {{ vehicle.year }}</p>
+                            <p style="color: #666; margin-bottom: 1rem;">{{ vehicle.description|truncatewords:15 }}</p>
+                            <a href="{% url 'home:vehicles' %}" class="btn btn-sm btn-primary-gradient" style="width: 100%; text-decoration: none;">
+                                View Details <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="text-center" style="margin-top: 3rem;">
+                <a href="{% url 'home:vehicles' %}" class="btn btn-primary-gradient">
+                    <i class="fas fa-th"></i> View All Vehicles
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Applications Section -->
+<section style="padding: 5rem 0; background: white;">
+    <div class="container-fluid">
+        <h2 class="section-title">Applications</h2>
+        <div style="margin-top: 4rem;">
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="feature-card">
+                        <i class="fas fa-industry"></i>
+                        <h4 style="margin-bottom: 1rem; color: var(--dark-color); font-weight: 700;">
+                            Infrastructure Inspection
+                        </h4>
+                        <p style="color: #666;">
+                            Pipeline monitoring, bridge inspection, dam surveys, and underwater structure assessment without human divers.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="feature-card">
+                        <i class="fas fa-leaf"></i>
+                        <h4 style="margin-bottom: 1rem; color: var(--dark-color); font-weight: 700;">
+                            Environmental Monitoring
+                        </h4>
+                        <p style="color: #666;">
+                            Water quality analysis, pollution detection, ecological surveys, and climate impact assessment.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="feature-card">
+                        <i class="fas fa-microscope"></i>
+                        <h4 style="margin-bottom: 1rem; color: var(--dark-color); font-weight: 700;">
+                            Scientific Research
+                        </h4>
+                        <p style="color: #666;">
+                            Marine biology studies, habitat mapping, species observation, and oceanographic data collection.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4 style="margin-bottom: 1rem; color: var(--dark-color); font-weight: 700;">
+                            Security & Rescue
+                        </h4>
+                        <p style="color: #666;">
+                            Underwater surveillance, search-and-rescue operations, hazardous zone exploration, and forensic investigations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section style="padding: 4rem 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center;">
+    <div class="container-fluid">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem; font-weight: 800;">Ready to Explore the Deep?</h2>
+        <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.95;">
+            Join us in advancing underwater robotics and exploration technology
+        </p>
+        <a href="{% url 'contact:contact' %}" class="btn btn-light" style="padding: 0.75rem 2rem; font-weight: 600; color: #667eea;">
+            <i class="fas fa-envelope"></i> Contact Us Today
+        </a>
+    </div>
+</section>
+
+<style>
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+</style>
+
+{% endblock %}
