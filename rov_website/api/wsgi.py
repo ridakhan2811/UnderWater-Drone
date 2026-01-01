@@ -1,16 +1,16 @@
 import os
 import sys
-from django.core.wsgi import get_wsgi_application  # This is ALWAYS correct
+from django.core.wsgi import get_wsgi_application
 
-# Point to your project root (rov_website)
+# Point to project root
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, PROJECT_ROOT)
 
-# Tell Django where the settings are
+# Django settings
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
-# Standard Django WSGI application
+# WSGI application
 application = get_wsgi_application()
 
-# Required for Vercel serverless
+# Vercel expects a handler variable
 handler = application
