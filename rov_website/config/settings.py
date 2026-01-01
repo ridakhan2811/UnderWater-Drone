@@ -92,14 +92,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #if not DEBUG:
  #   SECURE_SSL_REDIRECT = True
 # Security settings (safe for Vercel)
-SESSION_COOKIE_SECURE = True
+"""SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-SECURE_BROWSER_XSS_FILTER = True
-
-SECURE_CONTENT_SECURITY_POLICY = {
-    'default-src': ("'self'",),
-    'script-src': ("'self'", "'unsafe-inline'", "cdn.jsdelivr.net"),
-    'style-src': ("'self'", "'unsafe-inline'", "fonts.googleapis.com", "cdn.jsdelivr.net"),
-    'font-src': ("'self'", "fonts.gstatic.com"),
-    'img-src': ("'self'", "data:", "https:"),
-}
+SECURE_BROWSER_XSS_FILTER = True"""
