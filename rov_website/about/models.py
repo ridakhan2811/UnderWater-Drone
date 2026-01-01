@@ -13,3 +13,10 @@ class Vehicle(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.year})"
+class Subdivision(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    icon = models.CharField(max_length=50, default="fa-cog")
+    
+    def __str__(self):
+        return self.name
