@@ -2,27 +2,50 @@ import os
 from pathlib import Path
 from decouple import config
 
+# --------------------------------------------------
+# BASE
+# --------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-dev-key-change-in-production')
+# --------------------------------------------------
+# SECURITY
+# --------------------------------------------------
+SECRET_KEY = config(
+    'SECRET_KEY',
+    default='django-insecure-change-this-in-production'
+)
 
-# Robust boolean parsing for DEBUG
-def parse_bool_env(value, default=False):
-    if value is None:
-        return default
-    v = str(value).strip().lower()
-    return v in ('1', 'true', 'yes', 'on')
+DEBUG = False
 
-DEBUG = parse_bool_env(os.environ.get('DEBUG', None), default=False)
-
-ALLOWED_HOSTS = [h.strip() for h in config('ALLOWED_HOSTS', default='.vercel.app,localhost,127.0.0.1').split(',') if h.strip()]
-
-INSTALLED_APPS = [
-    'django.contrib.admin','django.contrib.auth','django.contrib.contenttypes',
-    'django.contrib.sessions','django.contrib.messages','django.contrib.staticfiles',
-    'whitenoise.runserver_nostatic','home','about','gallery','team','contact',
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '.pythonanywhere.com',
 ]
 
+# --------------------------------------------------
+# APPLICATIONS
+# --------------------------------------------------
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    'whitenoise.runserver_nostatic',
+
+    'home',
+    'about',
+    'gallery',
+    'team',
+    'contact',
+]
+
+# --------------------------------------------------
+# MIDDLEWARE
+# --------------------------------------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -34,31 +57,71 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# --------------------------------------------------
+# URLS / TEMPLATES
+# --------------------------------------------------
 ROOT_URLCONF = 'config.urls'
-TEMPLATES = [{ 'BACKEND': 'django.template.backends.django.DjangoTemplates',
-    'DIRS': [os.path.join(BASE_DIR, 'templates')], 'APP_DIRS': True,
-    'OPTIONS': {'context_processors': [
-        'django.template.context_processors.debug','django.template.context_processors.request',
-        'django.contrib.auth.context_processors.auth','django.contrib.messages.context_processors.messages',
-    ]},
-}]
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# Use /tmp on Vercel (ephemeral) else repo db
-if os.environ.get('VERCEL'):
-    DB_PATH = '/tmp/db.sqlite3'
-else:
-    DB_PATH = os.path.join(BASE_DIR, 'db.sqlite3')
+# --------------------------------------------------
+# DATABASE
+# --------------------------------------------------
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
-DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3','NAME': DB_PATH}}
+# --------------------------------------------------
+# PASSWORDS
+# --------------------------------------------------
+AUTH_PASSWORD_VALIDATORS = [
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+]
 
+# --------------------------------------------------
+# INTERNATIONALIZATION
+# --------------------------------------------------
+LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'Asia/Kolkata'
+USE_I18N = True
+USE_TZ = True
+
+# --------------------------------------------------
+# STATIC FILES
+# --------------------------------------------------
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# --------------------------------------------------
+# MEDIA FILES
+# --------------------------------------------------
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
+# --------------------------------------------------
+# DEFAULTS
+# --------------------------------------------------
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
